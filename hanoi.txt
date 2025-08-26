@@ -1,0 +1,100 @@
+hanoi(N):- mover(N, 'A', 'C', 'B').
+
+% Caso base: cuando no hay discos que mover
+mover(0, _, _, _):- !.
+
+% Movimiento recursivo
+mover(N, Origen, Destino, Intermedio):- 
+    M is N - 1,
+    mover(M, Origen, Intermedio, Destino),  % Mover los discos superiores a la torre intermedia
+    primitivo(Origen, Destino, N),         % Mover el disco actual con información sobre su tamaño
+    mover(M, Intermedio, Destino, Origen). % Mover los discos superiores a la torre destino
+
+% Definición de movimiento primitivo: impresión del tamaño del disco
+primitivo(X, Y, TamDisco):- 
+    escribelista([mover, el, disco, TamDisco, de, X, a, Y]),
+    nl.
+
+% Manejo de listas para imprimir movimientos
+escribelista([]).
+escribelista([H|T]):- 
+    write(H),
+    write(' '),
+    escribelista(T).
+
+
+Explicacion     
+1. Punto de entrada
+prolog
+hanoi(N):- mover(N, 'A', 'C', 'B').
+El predicado hanoi/1 recibe el número de discos N que deben moverse.
+
+Se llama al predicado mover/4 con los parámetros:
+
+'A' como torre de origen.
+
+'C' como torre de destino.
+
+'B' como torre intermedia.
+
+Este es el punto de inicio que organiza el problema.
+
+2. Caso base
+prolog
+mover(0, _, _, _):- !.
+Cuando no hay discos que mover (N = 0):
+
+La ejecución llega aquí y simplemente se detiene (!, corte).
+
+Esto asegura que no se intente mover nada si no hay discos.
+
+3. Movimiento recursivo
+prolog
+mover(N, Origen, Destino, Intermedio):- 
+    M is N - 1,
+    mover(M, Origen, Intermedio, Destino),  % Paso 1: Mover discos superiores a la torre intermedia
+    primitivo(Origen, Destino, N),         % Paso 2: Mover el disco más grande directamente al destino
+    mover(M, Intermedio, Destino, Origen). % Paso 3: Mover los discos superiores al destino
+Este es el corazón del algoritmo. Aquí se descompone el problema en tres pasos clave:
+
+Mover los discos superiores (N-1) desde la torre de origen (Origen) a la torre intermedia (Intermedio), usando la torre de destino (Destino) como apoyo.
+
+Mover el disco más grande (N) directamente desde la torre de origen (Origen) a la torre de destino (Destino). Este movimiento se imprime mediante el predicado primitivo/3.
+
+Mover los discos superiores (N-1) que quedaron en la torre intermedia (Intermedio) hacia la torre de destino (Destino), usando la torre de origen (Origen) como apoyo.
+
+4. Definición de un movimiento (primitivo)
+prolog
+primitivo(X, Y, TamDisco):- 
+    escribelista([mover, el, disco, TamDisco, de, X, a, Y]),
+    nl.
+Este predicado se encarga de imprimir la acción específica de mover un disco.
+
+Parámetros:
+
+X: Torre de origen.
+
+Y: Torre de destino.
+
+TamDisco: Número del disco que se está moviendo.
+
+Utiliza el predicado escribelista para formar una frase legible y añadir un salto de línea (nl).
+
+5. Manejo de listas para imprimir movimientos
+prolog
+escribelista([]).
+escribelista([H|T]):- 
+    write(H),
+    write(' '),
+    escribelista(T).
+Este predicado imprime una lista de palabras o elementos como una oración en Prolog:
+
+Caso base: Cuando la lista está vacía ([]), no hace nada.
+
+Caso recursivo: Toma el primer elemento (H), lo imprime con un espacio, y luego llama recursivamente con el resto de la lista (T).
+
+Por ejemplo:
+
+prolog
+escribelista([mover, el, disco, 1, de, 'A', a, 'C']).
+Resultado: mover el disco 1 de A a C.
