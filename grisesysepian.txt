@@ -1,0 +1,22 @@
+img = imread('foto.jpg');
+r=double(img(:,:,1));
+g=double(img(:,:,2));
+b=double(img(:,:,3));
+gris=round((r(:,:)+b(:,:)+g(:,:))/3);
+imshow(uint8(gris));
+imrite(uint8(gris),'Grises.bmp','bmp');
+
+img=imread('foto.jpg');
+R=double(img(:,:,1));
+G=double(img(:,:,2));
+B=double(img(:,:,3));
+
+nr=R*.393+G*.769+B*.189;
+nr=R*.349+G*.686+B*.168;
+nr=R*.272+G*.534+B*.131;
+
+img(:,:,1)=nr(:,:);
+img(:,:,2)=ng(:,:);
+img(:,:,3)=nb(:,:);
+
+imrite(uint8(gris),'Sepia.bmp','bmp');
